@@ -18,7 +18,7 @@ public class Table {
 
 	public static void main(String[] args) throws IOException {
 
-		NO I CO TERAZ;
+		
 		//Document doc = Jsoup.connect("https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1").get();
 		File input = new File("LaLiga.html");
 		Document doc = Jsoup.parse(input, "UTF-8");
