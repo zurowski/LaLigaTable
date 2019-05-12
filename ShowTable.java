@@ -24,7 +24,7 @@ public class ShowTable  extends JPanel {
 	    public ShowTable() {
 	        super(new GridLayout(1,0));
 	        
-	        File input = new File("LaLiga.html");
+	        File input = new File("LaLigaTabela.html");
 
 			Document doc = null;
 			try {

@@ -79,25 +79,15 @@ public class LaLiga {
 		
 		//https://www.transfermarkt.pl/primera-division/torschuetzenliste/wettbewerb/ES1/saison_id/2018 //strzelcy
 		//Document doc = Jsoup.connect("https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1").get();
-		File input = new File("LaLiga.html");
+		File input = new File("LaLigaStrzelcy.html");
 		
 		Document doc = Jsoup.parse(input, "UTF-8");
 		Element tabela = doc.select("div [class=\"responsive-table\"]").get(0);
-		//System.out.println(tabela.select("tbody").select("tr").get(0).select("td").get(9).text());
+		
+		System.out.println(tabela.select("table").select("tbody").select("tr").get(0).select("td").get(1).select("tr").get(1).text());
 
 		
-	        List<String> instructions = Jsoup.parse(input, "UTF-8")
-	                .select("div [class=\"responsive-table\"]").get(0)
-	                .select("tbody")
-	                .select("tr").get(1)
-	                .select("td").eachText();
-
-	        StringBuilder sb = new StringBuilder();
-	        sb.append(instructions.stream().collect(Collectors.joining(","))).append("\n");
-
-	        //System.out.print(sb.toString());
-
-	   	 
+	      	 
 	   	SwingUtilities.invokeLater((new Runnable() {
             public void run() {
                 new LaLiga();
