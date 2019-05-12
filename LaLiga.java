@@ -1,55 +1,40 @@
 package LaLigaTable;
 
-
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.File;
+
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.text.html.parser.DTD;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 
 
 public class LaLiga {
 
-	private final ChooseAnOption chooseAnOption = new ChooseAnOption(this);
-    //private GlobalFunctions service = new GlobalFunctions();
-    private JButton addManuallyButton;
-    private JButton addFromSiteButton;
+	private final Choose JedenZDwoch = new Choose(this);
+    private JButton Table;
+    private JButton Scorers;
 
     private void setButtons() {
-        addManuallyButton = new JButton("<html>Table</html>");
-        addManuallyButton.addActionListener(chooseAnOption);
-        addManuallyButton.setBounds(20, 100, 150, 100);
+        Table = new JButton("Table");
+        Table.addActionListener(JedenZDwoch);
+        Table.setBounds(0, 0, 150, 100);
 
 
-        addFromSiteButton = new JButton("<html>Scorers</html>");
-        addFromSiteButton.addActionListener(chooseAnOption);
-        addFromSiteButton.setBounds(220, 100, 150, 100);
+        Scorers = new JButton("Scorers");
+        Scorers.addActionListener(JedenZDwoch);
+        Scorers.setBounds(150, 0, 150, 100);
 
     }
 	
     private void setPane(Container pane) {
         setButtons();
-        pane.add(addManuallyButton);
-        pane.add(addFromSiteButton);
+        pane.add(Table);
+        pane.add(Scorers);
     }
 	
 	private void createAndShowGUI() {
@@ -65,7 +50,7 @@ public class LaLiga {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        jf.setSize(400, 400);
+        jf.setSize(300, 130);
         jf.setLocation(dim.width / 2 - jf.getSize().width / 2, dim.height / 2 - jf.getSize().height / 2);
         jf.setResizable(false);
     }
@@ -79,12 +64,12 @@ public class LaLiga {
 		
 		//https://www.transfermarkt.pl/primera-division/torschuetzenliste/wettbewerb/ES1/saison_id/2018 //strzelcy
 		//Document doc = Jsoup.connect("https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1").get();
-		File input = new File("LaLigaStrzelcy.html");
+		//File input = new File("LaLigaStrzelcy.html");
 		
-		Document doc = Jsoup.parse(input, "UTF-8");
-		Element tabela = doc.select("div [class=\"responsive-table\"]").get(0);
+		//Document doc = Jsoup.parse(input, "UTF-8");
+		//Element tabela = doc.select("div [class=\"responsive-table\"]").get(0);
 		
-		System.out.println(tabela.select("table").select("tbody").select("tr").get(0).select("td").get(1).select("tr").get(1).text());
+		//System.out.println(tabela.select("table").select("tbody").select("tr").get(0).select("td").get(1).select("tr").get(1).text());
 
 		
 	      	 

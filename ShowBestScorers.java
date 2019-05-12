@@ -1,9 +1,9 @@
 package LaLigaTable;
 
 import javax.swing.JFrame;
-	import javax.swing.JPanel;
-	import javax.swing.JScrollPane;
-	import javax.swing.JTable;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,8 +12,7 @@ import org.jsoup.select.Elements;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 	
@@ -33,12 +32,8 @@ public class ShowBestScorers  extends JPanel {
 				e.printStackTrace();
 			}
 
-
 			Elements tabela = doc.select("div [class=\"responsive-table\"]").get(0).select("table").select("tbody");
-
-			//System.out.println(tabela);
-			//System.out.println(tabela.select("table").select("tbody").select("tr").get(0).select("td").get(0).text());
-	        
+ 
 	        String[] columnNames = {"Miejsce",
 	                                "Imie",
 	                                "Pozycja",
@@ -48,29 +43,25 @@ public class ShowBestScorers  extends JPanel {
 
 	        Object[][] data = new Object[25][6];
 
-	        int rzadtabeli=0;
+	        int rzadtabeli = 0;
+	        int kolumnatabeli =0;
+	        Element rzad = null;
+	        		
 	        for (int row = 0; row <25*3;row+=3) {
 	        	
-	        	Element rzad = tabela.select("tr").get(row);
-	        		        	
-	        	for (int column = 0; column < 1; column+=5) {
-	        			data[rzadtabeli][column] = rzad.select("td").get(0).text(); //miejsce
-	        			data[rzadtabeli][column+1] = rzad.select("td").get(1).select("tr").get(0).text(); //imie
-	        			data[rzadtabeli][column+2] = rzad.select("td").get(1).select("tr").get(1).text(); //pozycja
-	        			data[rzadtabeli][column+3] = rzad.select("td").get(6).text();	//wiek
-	        			data[rzadtabeli][column+4] = rzad.select("td").get(8).text();	//rozegrane mecze
-	        			data[rzadtabeli][column+5] = rzad.select("td").get(9).text();	//strzelone gole
-	        	}
+	        	rzad = tabela.select("tr").get(row);
+	        	kolumnatabeli = 0;
+	        	data[rzadtabeli][kolumnatabeli] = rzad.select("td").get(0).text(); //miejsce
+	        	data[rzadtabeli][kolumnatabeli+1] = rzad.select("td").get(1).select("tr").get(0).text(); //imie
+	        	data[rzadtabeli][kolumnatabeli+2] = rzad.select("td").get(1).select("tr").get(1).text(); //pozycja
+	        	data[rzadtabeli][kolumnatabeli+3] = rzad.select("td").get(6).text();	//wiek
+	        	data[rzadtabeli][kolumnatabeli+4] = rzad.select("td").get(8).text();	//rozegrane mecze
+	        	data[rzadtabeli][kolumnatabeli+5] = rzad.select("td").get(9).text();	//strzelone gole
+
 	        	rzadtabeli++;
-	        	
-	        	
 	        }
 
 	        final JTable table = new JTable(data, columnNames);
-	        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-	        table.setFillsViewportHeight(true);
-
-	       
 
 	        //Create the scroll pane and add the table to it.
 	        JScrollPane scrollPane = new JScrollPane(table);
@@ -78,13 +69,7 @@ public class ShowBestScorers  extends JPanel {
 	        //Add the scroll pane to this panel.
 	        add(scrollPane);
 	    }
-	   
 
-	    /**
-	     * Create the GUI and show it.  For thread safety,
-	     * this method should be invoked from the
-	     * event-dispatching thread.
-	     */
 	    void createAndShowGUI() {
 	        //Create and set up the window.
 	        JFrame frame = new JFrame("Best Scorers");
@@ -98,8 +83,10 @@ public class ShowBestScorers  extends JPanel {
 	        //Display the window.
 	        frame.pack();
 	        frame.setVisible(true);
+	        
+	        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	        frame.setSize(dimension.width/2, 200);
+	        frame.setLocation(dimension.width - frame.getSize().width , 0 );
 	    }
-
-	    
 	}
 
