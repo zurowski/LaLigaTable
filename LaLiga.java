@@ -15,43 +15,41 @@ import javax.swing.SwingUtilities;
 
 public class LaLiga {
 
-	private final Choose JedenZDwoch = new Choose(this);
+	private final ChooseAction JedenZDwoch = new ChooseAction();
     private JButton Table;
     private JButton Scorers;
 
-    private void setButtons() {
-        Table = new JButton("Table");
+    private void setAll(Container panel) {
+    	
+    	Table = new JButton("Table");
         Table.addActionListener(JedenZDwoch);
         Table.setBounds(0, 0, 150, 100);
-
+        panel.add(Table);
 
         Scorers = new JButton("Scorers");
         Scorers.addActionListener(JedenZDwoch);
         Scorers.setBounds(150, 0, 150, 100);
-
+        panel.add(Scorers);
     }
 	
-    private void setPane(Container pane) {
-        setButtons();
-        pane.add(Table);
-        pane.add(Scorers);
-    }
 	
 	private void createAndShowGUI() {
         JFrame jf = new JFrame("Season 18/19");
-        JPanel jPanel = new JPanel();
-        jPanel.setLayout(null);
+        JPanel jp = new JPanel();
+        
+        jp.setLayout(null);
 
-        setPane(jPanel);
-        jf.getContentPane().add(jPanel);
+        setAll(jp);
+        
+        jf.getContentPane().add(jp);
 
         jf.pack();
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         jf.setSize(300, 130);
-        jf.setLocation(dim.width / 2 - jf.getSize().width / 2, dim.height / 2 - jf.getSize().height / 2);
+        jf.setLocation(dimension.width / 2 - jf.getSize().width / 2, dimension.height / 2 - jf.getSize().height / 2);
         jf.setResizable(false);
     }
 	
@@ -63,7 +61,7 @@ public class LaLiga {
 	public static void main(String[] args) throws IOException {
 		
 		//https://www.transfermarkt.pl/primera-division/torschuetzenliste/wettbewerb/ES1/saison_id/2018 //strzelcy
-		//Document doc = Jsoup.connect("https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1").get();
+		//Document doc = Jsoup.connect("https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1").get(); //tabela
 		//File input = new File("LaLigaStrzelcy.html");
 		
 		//Document doc = Jsoup.parse(input, "UTF-8");

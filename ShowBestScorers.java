@@ -20,15 +20,15 @@ public class ShowBestScorers  extends JPanel {
 
 
 	    public ShowBestScorers() {
-	    	super(new GridLayout(1,0));
+	    	super(new GridLayout(1,0));    	
 	    	
-	    	File input = new File("LaLigaStrzelcy.html");
-
 			Document doc = null;
+			
 			try {
+				File input = new File("LaLigaStrzelcy.html");
 				doc = Jsoup.parse(input, "UTF-8");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
+				System.err.println("Exception was caught!");
 				e.printStackTrace();
 			}
 
@@ -44,7 +44,7 @@ public class ShowBestScorers  extends JPanel {
 	        Object[][] data = new Object[25][6];
 
 	        int rzadtabeli = 0;
-	        int kolumnatabeli =0;
+	        int kolumnatabeli = 0;
 	        Element rzad = null;
 	        		
 	        for (int row = 0; row <25*3;row+=3) {
@@ -63,24 +63,18 @@ public class ShowBestScorers  extends JPanel {
 
 	        final JTable table = new JTable(data, columnNames);
 
-	        //Create the scroll pane and add the table to it.
-	        JScrollPane scrollPane = new JScrollPane(table);
-
-	        //Add the scroll pane to this panel.
+	        JScrollPane scrollPane = new JScrollPane(table); 
 	        add(scrollPane);
 	    }
 
 	    void createAndShowGUI() {
-	        //Create and set up the window.
 	        JFrame frame = new JFrame("Best Scorers");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	        //Create and set up the content pane.
 	        ShowBestScorers newContentPane = new ShowBestScorers();
-	        newContentPane.setOpaque(true); //content panes must be opaque
+	        newContentPane.setOpaque(true); 
 	        frame.setContentPane(newContentPane);
 
-	        //Display the window.
 	        frame.pack();
 	        frame.setVisible(true);
 	        

@@ -15,20 +15,17 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 
-	
 public class ShowTable  extends JPanel {
-
 
 	    public ShowTable() {
 	        super(new GridLayout(1,0));
-	        
-	        File input = new File("LaLigaTabela.html");
 
 			Document doc = null;
-			try {
+			try { 
+				File input = new File("LaLigaTabela.html");
 				doc = Jsoup.parse(input, "UTF-8");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (Exception e) {
+				System.err.println("Exception was caught!");
 				e.printStackTrace();
 			}
 			
@@ -72,16 +69,13 @@ public class ShowTable  extends JPanel {
 	    }
 
 	    void createAndShowGUI() {
-	        //Create and set up the window.
 	        JFrame frame = new JFrame("Table");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	        //Create and set up the content pane.
 	        ShowTable newContentPane = new ShowTable();
-	        newContentPane.setOpaque(true); //content panes must be opaque
+	        newContentPane.setOpaque(true);
 	        frame.setContentPane(newContentPane);
 
-	        //Display the window.
 	        frame.pack();
 	        frame.setVisible(true);
 	        
@@ -89,8 +83,6 @@ public class ShowTable  extends JPanel {
 	        frame.setSize(dimension.width/2, 200);
 	        frame.setLocation(0 , 0 );
 	    }
-
-
-	    }
+}
 	
 
