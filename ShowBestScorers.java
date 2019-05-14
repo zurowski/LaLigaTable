@@ -44,19 +44,17 @@ public class ShowBestScorers  extends JPanel {
 	        Object[][] data = new Object[25][6];
 
 	        int rzadtabeli = 0;
-	        int kolumnatabeli = 0;
 	        Element rzad = null;
 	        		
 	        for (int row = 0; row <25*3;row+=3) {
 	        	
 	        	rzad = tabela.select("tr").get(row);
-	        	kolumnatabeli = 0;
-	        	data[rzadtabeli][kolumnatabeli] = rzad.select("td").get(0).text(); //miejsce
-	        	data[rzadtabeli][kolumnatabeli+1] = rzad.select("td").get(1).select("tr").get(0).text(); //imie
-	        	data[rzadtabeli][kolumnatabeli+2] = rzad.select("td").get(1).select("tr").get(1).text(); //pozycja
-	        	data[rzadtabeli][kolumnatabeli+3] = rzad.select("td").get(6).text();	//wiek
-	        	data[rzadtabeli][kolumnatabeli+4] = rzad.select("td").get(8).text();	//rozegrane mecze
-	        	data[rzadtabeli][kolumnatabeli+5] = rzad.select("td").get(9).text();	//strzelone gole
+	        	data[rzadtabeli][0] = rzad.select("td").get(0).text(); //miejsce
+	        	data[rzadtabeli][1] = rzad.select("td").get(1).select("tr").get(0).text(); //imie
+	        	data[rzadtabeli][2] = rzad.select("td").get(1).select("tr").get(1).text(); //pozycja
+	        	data[rzadtabeli][3] = rzad.select("td").get(6).text();	//wiek
+	        	data[rzadtabeli][4] = rzad.select("td").get(8).text();	//rozegrane mecze
+	        	data[rzadtabeli][5] = rzad.select("td").get(9).text();	//strzelone gole
 
 	        	rzadtabeli++;
 	        }
