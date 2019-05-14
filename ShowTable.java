@@ -4,6 +4,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -57,11 +61,47 @@ public class ShowTable  extends JPanel {
 	        		}
 	        	}
 	        }
+	        
+	        TableModel dataModel = new AbstractTableModel() {
+	        	
+	            public int getColumnCount() { return columnNames.length; }
+	            public int getRowCount() { return data.length;}
+	            public String getColumnName(int columnIndex) {
+	                return columnNames[columnIndex];
+	            }
+	            public Object getValueAt(int row, int col) { return (data[row][col]); }
+	            
+	            /*public Class<?> getColumnClass(int columnIndex) {
+	                //if (listEmployees.isEmpty()) {return Object.class;}
+	                return getValueAt(1, columnIndex).getClass();
+	            }*/
+	            public Class<?> getColumnClass(int column) {
+	                Class<?> returnValue;
+	                if ((column >= 0) && (column < getColumnCount())) {
+	                  returnValue = getValueAt(0, column).getClass();
+	                } else {
+	                  returnValue = Object.class;
+	                }
+	                return returnValue;
+	              }
 
-	        final JTable table = new JTable(data, columnNames);
+	        };
+	        
+	        JTable table = new JTable(dataModel);
+	        //JScrollPane scrollpane = new JScrollPane(table);
+	        
+	        //final JTable table = new JTable(data, columnNames);
 	        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
 	        table.setFillsViewportHeight(true);
+	        
+	        TableRowSorter sorter = new TableRowSorter(dataModel);
+	        sorter.setSortable(6, false);
 
+	        table.setRowSorter(sorter);
+	        
+	        //table.setRowSorter(new TableRowSorter(dataModel));
+	        //table.setAutoCreateRowSorter(true);
+	        
 
 	        JScrollPane scrollPane = new JScrollPane(table);
 
