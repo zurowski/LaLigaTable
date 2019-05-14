@@ -3,14 +3,17 @@ package LaLigaTable;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
-
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 
 public class LaLiga {
@@ -64,11 +67,18 @@ public class LaLiga {
 		//Document doc = Jsoup.connect("https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1").get(); //tabela
 		//File input = new File("LaLigaStrzelcy.html");
 		
-		//Document doc = Jsoup.parse(input, "UTF-8");
-		//Element tabela = doc.select("div [class=\"responsive-table\"]").get(0);
-		
-		//System.out.println(tabela.select("table").select("tbody").select("tr").get(0).select("td").get(1).select("tr").get(1).text());
+		Document doc = null;
+		try { 
+			File input = new File("LaLigaTabela.html");
+			doc = Jsoup.parse(input, "UTF-8");
+		} catch (Exception e) {
+			System.err.println("Exception was caught!");
+			e.printStackTrace();
+		}
+		Element tabela = doc.select("div [class=\"responsive-table\"]").get(0);
 
+		
+		System.out.println(tabela.select("tbody").select("tr").get(0).select("td").get(1).select("img"));
 		
 	      	 
 	   	SwingUtilities.invokeLater((new Runnable() {

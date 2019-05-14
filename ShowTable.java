@@ -1,5 +1,7 @@
 package LaLigaTable;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,7 +17,9 @@ import org.jsoup.nodes.Element;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -36,6 +40,7 @@ public class ShowTable  extends JPanel {
 			Element tabela = doc.select("div [class=\"responsive-table\"]").get(0);
 	        
 	        String[] columnNames = {"Miejsce",
+	        						"Herb",
 	                                "Druzyna",
 	                                "Wystepy",
 	                                "Wygrane",
@@ -52,12 +57,17 @@ public class ShowTable  extends JPanel {
 	        	
 	        	rzad = tabela.select("tbody").select("tr").get(row);
 	        		        	
-	        	for (int column = 0; column < 10; column ++) {
+	        	for (int column = 0; column < columnNames.length; column ++) {
 	        		if (column > 1)
 	        		{
-	        			data[row][column-1] = rzad.select("td").get(column).text();
-	        		}else {
 	        			data[row][column] = rzad.select("td").get(column).text();
+	        		}else {
+	        			if (column == 0 ) data[row][column] = Integer.parseInt(rzad.select("td").get(column).text());
+	        			if (column == 1 ) { ImageIcon ii = new ImageIcon("src/images/131.png");
+
+	        				data[row][column] = ii;
+	        			}
+	        	        
 	        		}
 	        	}
 	        }
@@ -71,19 +81,14 @@ public class ShowTable  extends JPanel {
 	            }
 	            public Object getValueAt(int row, int col) { return (data[row][col]); }
 	            
-	            /*public Class<?> getColumnClass(int columnIndex) {
-	                //if (listEmployees.isEmpty()) {return Object.class;}
-	                return getValueAt(1, columnIndex).getClass();
-	            }*/
+
 	            public Class<?> getColumnClass(int column) {
-	                Class<?> returnValue;
 	                if ((column >= 0) && (column < getColumnCount())) {
-	                  returnValue = getValueAt(0, column).getClass();
+	                  return getValueAt(0, column).getClass();
 	                } else {
-	                  returnValue = Object.class;
+	                  return Object.class;
 	                }
-	                return returnValue;
-	              }
+	            }
 
 	        };
 	        
