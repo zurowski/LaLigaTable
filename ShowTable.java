@@ -30,8 +30,7 @@ public class ShowTable  extends JPanel {
 
 	    public ShowTable() {
 	        super(new GridLayout(1,0));
-	        
-	        
+
 			Document doc = null;
 			try { 
 				File input = new File("LaLigaTabela.html");
@@ -63,27 +62,20 @@ public class ShowTable  extends JPanel {
 	        	rzad = tabela.select("tbody").select("tr").get(row);
 	        		        	
 	        	for (int column = 0; column < columnNames.length; column ++) {
-	        		if (column > 1)
-	        		{
+	        		if ((column == 2) || (column == 7)){
 	        			data[row][column] = rzad.select("td").get(column).text();
-	        		}else {
-	        			if (column == 0 ) data[row][column] = Integer.parseInt(rzad.select("td").get(column).text());
-	        			if (column == 1 ) { 
-	        				String sciezka = rzad.select("td").get(column).select("img").attr("abs:src");
-	        				URL url = null;
-	        				try {
-	        					url = new URL(sciezka);
-							} catch (MalformedURLException e) {
-								e.printStackTrace();
-							}
-	        				ImageIcon image = new ImageIcon(url);
-	        				
-
-	        				data[row][column] = image;
-	        			}
-	        	        
+	        		}else if (column == 1 ) {
+	        			try {
+	        				data[row][column] = new ImageIcon(new URL(rzad.select("td").get(column).select("img").attr("abs:src")));
+						} catch (MalformedURLException e) {
+							e.printStackTrace();
+						}
+	        		} else {
+	        			data[row][column] = Integer.parseInt(rzad.select("td").get(column).text());
 	        		}
+	        	        
 	        	}
+	        	
 	        }
 	        
 	        TableModel dataModel = new AbstractTableModel() {

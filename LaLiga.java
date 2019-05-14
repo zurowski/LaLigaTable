@@ -70,21 +70,25 @@ public class LaLiga {
 		//File input = new File("LaLigaStrzelcy.html");
 		
 		Document doc = null;
-		/*try { 
+		try { 
 			File input = new File("LaLigaTabela.html");
-			//doc = Jsoup.connect("https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1").get();
-			doc = Jsoup.parse(input, "UTF-8");//, "https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1");
+			doc = Jsoup.connect("https://www.transfermarkt.pl/primera-division/torschuetzenliste/wettbewerb/ES1/saison_id/2018").get();
+			// = Jsoup.parse(input, "UTF-8");//, "https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1");
 		} catch (Exception e) {
 			System.err.println("Exception was caught!");
 			e.printStackTrace();
 		}
-		Element tabela = doc.select("div [class=\"responsive-table\"]").get(0);
+		Elements tabela = doc.select("div [class=\"responsive-table\"]").get(0).select("table").select("tbody");
+		Element rzad = tabela.select("tr").get(0);
 
 		//Elements sciezka = tabela.select("tbody").select("tr").get(1).select("td").get(1).select("img");
-		String sciezka = tabela.select("tbody").select("tr").get(1).select("td").get(1).select("img").attr("abs:src");
+		//String sciezka = rzad.select("td").get(1).select("tr").get(0).select("td").get(0).select("img").attr("abs:src");
+		//Element sciezka = rzad.select("td").get(6);
+		String sciezka = rzad.select("td").get(7).select("img").attr("abs:src");
 		System.out.println(sciezka);
-		*/
-	      	 
+		
+	      
+		
 	   	SwingUtilities.invokeLater((new Runnable() {
             public void run() {
                 new LaLiga();

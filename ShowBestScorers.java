@@ -1,9 +1,13 @@
 package LaLigaTable;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,6 +19,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 	
 public class ShowBestScorers  extends JPanel {
 
@@ -25,8 +31,8 @@ public class ShowBestScorers  extends JPanel {
 			Document doc = null;
 			
 			try {
-				File input = new File("LaLigaStrzelcy.html");
-				doc = Jsoup.parse(input, "UTF-8");
+				File input = new File("LaLigaTabela.html");
+				doc = Jsoup.connect("https://www.transfermarkt.pl/primera-division/torschuetzenliste/wettbewerb/ES1/saison_id/2018").get();
 			} catch (Exception e) {
 				System.err.println("Exception was caught!");
 				e.printStackTrace();
@@ -35,13 +41,15 @@ public class ShowBestScorers  extends JPanel {
 			Elements tabela = doc.select("div [class=\"responsive-table\"]").get(0).select("table").select("tbody");
  
 	        String[] columnNames = {"Miejsce",
+	        						"Zdjecie",
 	                                "Imie",
 	                                "Pozycja",
+	                                "Klub",
 	                                "Wiek",
 	                                "Wystêpy",
 	                                "Strzelone Gole"};
 
-	        Object[][] data = new Object[25][6];
+	        Object[][] data = new Object[25][8];
 
 	        int rzadtabeli = 0;
 	        Element rzad = null;
@@ -50,16 +58,59 @@ public class ShowBestScorers  extends JPanel {
 	        	
 	        	rzad = tabela.select("tr").get(row);
 	        	data[rzadtabeli][0] = rzad.select("td").get(0).text(); //miejsce
-	        	data[rzadtabeli][1] = rzad.select("td").get(1).select("tr").get(0).text(); //imie
-	        	data[rzadtabeli][2] = rzad.select("td").get(1).select("tr").get(1).text(); //pozycja
-	        	data[rzadtabeli][3] = rzad.select("td").get(6).text();	//wiek
-	        	data[rzadtabeli][4] = rzad.select("td").get(8).text();	//rozegrane mecze
-	        	data[rzadtabeli][5] = rzad.select("td").get(9).text();	//strzelone gole
+	        	try {
+					data[rzadtabeli][1] = new ImageIcon(new URL(rzad.select("td").get(1).select("tr").get(0).select("td").get(0).select("img").attr("abs:src")));
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	data[rzadtabeli][2] = rzad.select("td").get(1).select("tr").get(0).text(); //imie
+	        	data[rzadtabeli][3] = rzad.select("td").get(1).select("tr").get(1).text(); //pozycja
+	        	try {
+	        		data[rzadtabeli][4] = new ImageIcon(new URL(rzad.select("td").get(7).select("img").attr("abs:src")));
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	data[rzadtabeli][5] = rzad.select("td").get(6).text();	//wiek
+	        	data[rzadtabeli][6] = rzad.select("td").get(8).text();	//rozegrane mecze
+	        	data[rzadtabeli][7] = rzad.select("td").get(9).text();	//strzelone gole
 
 	        	rzadtabeli++;
 	        }
 
-	        final JTable table = new JTable(data, columnNames);
+	        TableModel dataModel = new AbstractTableModel() {
+	        	
+	            public int getColumnCount() { return columnNames.length; }
+	            public int getRowCount() { return data.length;}
+	            public String getColumnName(int columnIndex) {
+	                return columnNames[columnIndex];
+	            }
+	            public Object getValueAt(int row, int col) { return (data[row][col]); }
+	            
+
+	            public Class<?> getColumnClass(int column) {
+	                if ((column >= 0) && (column < getColumnCount())) {
+	                  return getValueAt(0, column).getClass();
+	                } else {
+	                  return Object.class;
+	                }
+	            }
+
+	        };
+	        
+	        JTable table = new JTable(dataModel);
+	        //JScrollPane scrollpane = new JScrollPane(table);
+	        
+	        //final JTable table = new JTable(data, columnNames);
+	        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+	        table.setFillsViewportHeight(true);
+	        
+	        TableRowSorter sorter = new TableRowSorter(dataModel);
+	        sorter.setSortable(1, false);
+	        sorter.setSortable(4, false);
+
+	        table.setRowSorter(sorter);
 
 	        JScrollPane scrollPane = new JScrollPane(table); 
 	        add(scrollPane);
