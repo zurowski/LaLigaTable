@@ -30,7 +30,8 @@ public class DisplayImage extends JFrame {
 
     private ImageIcon loadImage() {
 
-        ImageIcon ii = new ImageIcon("src/images/131.png");
+        //ImageIcon ii = new ImageIcon("src/images/131.png");
+    	ImageIcon ii = new ImageIcon("./LaligaTabela_files/131.png");
         return ii;
     }
 

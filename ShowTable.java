@@ -14,6 +14,7 @@ import javax.swing.table.TableRowSorter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -22,16 +23,20 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ShowTable  extends JPanel {
 
 	    public ShowTable() {
 	        super(new GridLayout(1,0));
-
+	        
+	        
 			Document doc = null;
 			try { 
 				File input = new File("LaLigaTabela.html");
-				doc = Jsoup.parse(input, "UTF-8");
+				doc = Jsoup.connect("https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1").get();
+				//doc = Jsoup.parse(input, "UTF-8", "transfermarkt.pl/laliga/tabelle/wettbewerb/ES1");
 			} catch (Exception e) {
 				System.err.println("Exception was caught!");
 				e.printStackTrace();
@@ -63,9 +68,18 @@ public class ShowTable  extends JPanel {
 	        			data[row][column] = rzad.select("td").get(column).text();
 	        		}else {
 	        			if (column == 0 ) data[row][column] = Integer.parseInt(rzad.select("td").get(column).text());
-	        			if (column == 1 ) { ImageIcon ii = new ImageIcon("src/images/131.png");
+	        			if (column == 1 ) { 
+	        				String sciezka = rzad.select("td").get(column).select("img").attr("abs:src");
+	        				URL url = null;
+	        				try {
+	        					url = new URL(sciezka);
+							} catch (MalformedURLException e) {
+								e.printStackTrace();
+							}
+	        				ImageIcon image = new ImageIcon(url);
+	        				
 
-	        				data[row][column] = ii;
+	        				data[row][column] = image;
 	        			}
 	        	        
 	        		}
@@ -100,7 +114,8 @@ public class ShowTable  extends JPanel {
 	        table.setFillsViewportHeight(true);
 	        
 	        TableRowSorter sorter = new TableRowSorter(dataModel);
-	        sorter.setSortable(6, false);
+	        sorter.setSortable(1, false);
+	        sorter.setSortable(7, false);
 
 	        table.setRowSorter(sorter);
 	        
