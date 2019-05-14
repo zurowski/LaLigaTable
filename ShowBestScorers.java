@@ -16,6 +16,7 @@ import org.jsoup.select.Elements;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
@@ -57,10 +58,12 @@ public class ShowBestScorers  extends JPanel {
 	        for (int row = 0; row <25*3;row+=3) {
 	        	
 	        	rzad = tabela.select("tr").get(row);
-	        	data[rzadtabeli][0] = rzad.select("td").get(0).text(); //miejsce
+	        	data[rzadtabeli][0] = Integer.parseInt(rzad.select("td").get(0).text()); //miejsce
 	        	try {
-					data[rzadtabeli][1] = new ImageIcon(new URL(rzad.select("td").get(1).select("tr").get(0).select("td").get(0).select("img").attr("abs:src")));
-				} catch (MalformedURLException e) {
+					ImageIcon myimage = new ImageIcon(new URL(rzad.select("td").get(1).select("tr").get(0).select("td").get(0).select("img").attr("abs:src")));
+	        		ImageIcon newimage = new ImageIcon(myimage.getImage().getScaledInstance(50, 50, java.awt.Image.SCALE_SMOOTH));
+	        		data[rzadtabeli][1] = newimage;
+	        	} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -68,14 +71,14 @@ public class ShowBestScorers  extends JPanel {
 	        	data[rzadtabeli][3] = rzad.select("td").get(1).select("tr").get(1).text(); //pozycja
 	        	try {
 	        		data[rzadtabeli][4] = new ImageIcon(new URL(rzad.select("td").get(7).select("img").attr("abs:src")));
-	        		
+	        			
 	        	} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	        	data[rzadtabeli][5] = rzad.select("td").get(6).text();	//wiek
-	        	data[rzadtabeli][6] = rzad.select("td").get(8).text();	//rozegrane mecze
-	        	data[rzadtabeli][7] = rzad.select("td").get(9).text();	//strzelone gole
+	        	data[rzadtabeli][5] = Integer.parseInt(rzad.select("td").get(6).text());	//wiek
+	        	data[rzadtabeli][6] = Integer.parseInt(rzad.select("td").get(8).text());	//rozegrane mecze
+	        	data[rzadtabeli][7] = Integer.parseInt(rzad.select("td").get(9).text());	//strzelone gole
 
 	        	rzadtabeli++;
 	        }
@@ -102,10 +105,15 @@ public class ShowBestScorers  extends JPanel {
 	        
 	        JTable table = new JTable(dataModel);
 	        //JScrollPane scrollpane = new JScrollPane(table);
-	        table.setRowHeight(40);
+	        table.setRowHeight(50);
+	        
+	        table.getColumnModel().getColumn(0).setPreferredWidth(30);
+	        table.getColumnModel().getColumn(2).setPreferredWidth(110);
+	        table.getColumnModel().getColumn(3).setPreferredWidth(110);
+	        table.getColumnModel().getColumn(4).setPreferredWidth(50);
 	        //final JTable table = new JTable(data, columnNames);
-	        //table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-	        //table.setFillsViewportHeight(true);
+	        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+	        table.setFillsViewportHeight(true);
 	        
 	        TableRowSorter sorter = new TableRowSorter(dataModel);
 	        sorter.setSortable(1, false);

@@ -110,7 +110,10 @@ public class ShowTable  extends JPanel {
 	        sorter.setSortable(7, false);
 
 	        table.setRowSorter(sorter);
+	        table.setRowHeight(30);
 	        
+	        table.getColumnModel().getColumn(0).setPreferredWidth(30);
+	        table.getColumnModel().getColumn(2).setPreferredWidth(110);
 	        //table.setRowSorter(new TableRowSorter(dataModel));
 	        //table.setAutoCreateRowSorter(true);
 	        
