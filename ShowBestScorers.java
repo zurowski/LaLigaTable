@@ -68,7 +68,8 @@ public class ShowBestScorers  extends JPanel {
 	        	data[rzadtabeli][3] = rzad.select("td").get(1).select("tr").get(1).text(); //pozycja
 	        	try {
 	        		data[rzadtabeli][4] = new ImageIcon(new URL(rzad.select("td").get(7).select("img").attr("abs:src")));
-				} catch (MalformedURLException e) {
+	        		
+	        	} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -101,10 +102,10 @@ public class ShowBestScorers  extends JPanel {
 	        
 	        JTable table = new JTable(dataModel);
 	        //JScrollPane scrollpane = new JScrollPane(table);
-	        
+	        table.setRowHeight(40);
 	        //final JTable table = new JTable(data, columnNames);
-	        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-	        table.setFillsViewportHeight(true);
+	        //table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+	        //table.setFillsViewportHeight(true);
 	        
 	        TableRowSorter sorter = new TableRowSorter(dataModel);
 	        sorter.setSortable(1, false);
@@ -112,8 +113,8 @@ public class ShowBestScorers  extends JPanel {
 
 	        table.setRowSorter(sorter);
 
-	        JScrollPane scrollPane = new JScrollPane(table); 
-	        add(scrollPane);
+	        
+	        add(new JScrollPane(table));
 	    }
 
 	    void createAndShowGUI() {

@@ -69,7 +69,7 @@ public class LaLiga {
 		//Document doc = Jsoup.connect("https://www.transfermarkt.pl/laliga/tabelle/wettbewerb/ES1").get(); //tabela
 		//File input = new File("LaLigaStrzelcy.html");
 		
-		Document doc = null;
+		/*Document doc = null;
 		try { 
 			File input = new File("LaLigaTabela.html");
 			doc = Jsoup.connect("https://www.transfermarkt.pl/primera-division/torschuetzenliste/wettbewerb/ES1/saison_id/2018").get();
@@ -85,7 +85,7 @@ public class LaLiga {
 		//String sciezka = rzad.select("td").get(1).select("tr").get(0).select("td").get(0).select("img").attr("abs:src");
 		//Element sciezka = rzad.select("td").get(6);
 		String sciezka = rzad.select("td").get(7).select("img").attr("abs:src");
-		System.out.println(sciezka);
+		System.out.println(sciezka);*/
 		
 	      
 		

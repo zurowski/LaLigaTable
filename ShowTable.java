@@ -115,9 +115,7 @@ public class ShowTable  extends JPanel {
 	        //table.setAutoCreateRowSorter(true);
 	        
 
-	        JScrollPane scrollPane = new JScrollPane(table);
-
-	        add(scrollPane);
+	        add(new JScrollPane(table));
 	    }
 
 	    void createAndShowGUI() {
